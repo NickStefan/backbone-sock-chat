@@ -1,5 +1,5 @@
 var express = require('express');
-var app = express();
+var http = require('http');
 var path = require('path');
 var favicon = require('static-favicon');
 var logger = require('morgan');
@@ -8,17 +8,7 @@ var bodyParser = require('body-parser');
 var dust = require('dustjs-linkedin');
 var cons = require('consolidate');
 
-// socket.io and server
-var server = app.listen(3000);
-var io = require('socket.io').listen(server);
-
-server.listen(app.get('port'), function(){
-  console.log('express server listening');
-});
-
-io.on('connection', function(socket) {
-  console.log('user connected...');
-});
+var app = express();
 
 // routes and templating
 var routes = require('./routes/index');
@@ -68,6 +58,37 @@ app.use(function(err, req, res, next) {
         message: err.message,
         error: {}
     });
+});
+
+// originally from bin/www file
+//http://stackoverflow.com/questions/24222483/socket-io-1-0-express-4-2-no-socket-connection
+
+var debug = require('debug')('generated-express-app');
+
+app.set('port', process.env.PORT || 3000);
+
+var server = app.listen(app.get('port'), function() {
+    debug('Express server listening on port ' + server.address().port);
+});
+
+var io = require('socket.io').listen(server);
+io.set('transports', ['websocket']);
+
+io.sockets.on('connection', function (socket) {
+  console.log('another connection');
+  
+  socket.on('chat message', function(msg){
+      console.log('message: ' + msg);
+    });
+  
+  socket.on('disconnect', function(){
+      console.log('user disconnected');
+    });
+    
+    // socket.emit('news', { hello: 'world' });
+//     socket.on('my other event', function (data) {
+//         console.log(data);
+//     });
 });
 
 module.exports = app;
