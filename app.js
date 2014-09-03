@@ -72,23 +72,20 @@ var server = app.listen(app.get('port'), function() {
 });
 
 var io = require('socket.io').listen(server);
-io.set('transports', ['websocket']);
-
-io.sockets.on('connection', function (socket) {
+for (var key in io){
+  console.log(key);
+}
+io.on('connection', function (socket) {
   console.log('another connection');
   
   socket.on('chat message', function(msg){
-      console.log('message: ' + msg);
+    io.emit('chat message', msg);
     });
   
   socket.on('disconnect', function(){
       console.log('user disconnected');
     });
     
-    // socket.emit('news', { hello: 'world' });
-//     socket.on('my other event', function (data) {
-//         console.log(data);
-//     });
 });
 
 module.exports = app;
