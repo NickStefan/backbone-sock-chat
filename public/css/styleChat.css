@@ -1,34 +1,39 @@
 #app {
   margin-top: 100px;
 }
-.chatbox {
-  max-width: 500px;
-  height: 279px;
-  border: 1px solid black;
-}
 
-.innerchatbox {
-  height: 250px;
-  border-bottom: 1px solid black;
+.spacer {
+  min-height: 10px;
 }
 
 form input { 
-  display: inline-block;
   border: 0; 
-  width: 99%; 
   height: 25px;
 }
 
-#messages { 
+.messages { 
   list-style-type: none; 
   margin: 0; 
   padding: 0; 
+  overflow: auto;
 }
   
-#messages li { 
-  padding: 5px 10px; 
+.messages li { 
+  padding: 5px 10px;
+  min-height: 30px;
 }
 
-#messages li:nth-child(odd) { 
+.messages li:nth-child(odd) { 
   background: #eee; 
+}
+
+.chatters { 
+  list-style-type: none; 
+  margin: 0; 
+  padding: 0; 
+  overflow: auto;
+}
+  
+.chatters li { 
+  padding: 5px 5px;
 }
