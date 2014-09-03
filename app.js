@@ -1,4 +1,5 @@
 var express = require('express');
+var app = express();
 var path = require('path');
 var favicon = require('static-favicon');
 var logger = require('morgan');
@@ -7,16 +8,27 @@ var bodyParser = require('body-parser');
 var dust = require('dustjs-linkedin');
 var cons = require('consolidate');
 
+// socket.io and server
+var server = app.listen(3000);
+var io = require('socket.io').listen(server);
+
+server.listen(app.get('port'), function(){
+  console.log('express server listening');
+});
+
+io.on('connection', function(socket) {
+  console.log('user connected...');
+});
+
+// routes and templating
 var routes = require('./routes/index');
 var users = require('./routes/users');
 
-var app = express();
-
-// view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'dust');
 app.engine('dust', cons.dust);
 
+// middleware
 app.use(favicon());
 app.use(logger('dev'));
 app.use(bodyParser.json());

@@ -1,11 +1,19 @@
 {>layout/}
+
 {<content}
+
 <h1>Hello Sock-Chat</h1>
 <ul id="messages"></ul>
-    <form action="">
-      <input id="m" autocomplete="off" /><button>Send</button>
-    </form>
+<form action="">
+  <input id="m" autocomplete="off" /><button>Send</button>
+</form>
+<script src="js/lib/socket.io.js"></script>
+<script>
+var socket = io();
+</script>
 {/content}
+
+
 {<head-html}
 <title>Socket.IO chat</title>
     <style>
