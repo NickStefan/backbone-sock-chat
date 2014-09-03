@@ -1,0 +1,11 @@
+{>layout/}
+
+{<content}
+{{error}}
+{{message}}
+{/content}
+
+
+{<title}
+Error
+{/title}

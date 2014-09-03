@@ -1,9 +1,6 @@
-body { 
-  font: 13px Helvetica, Arial; 
-  margin: 0; 
-  padding: 0; 
+#app {
+  margin-top: 100px;
 }
-
 .chatbox {
   max-width: 500px;
   height: 279px;

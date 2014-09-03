@@ -77,6 +77,7 @@ io.on('connection', function (socket) {
   console.log('another connection');
   
   socket.on('chat message', function(msg){
+    console.log(msg);
     io.emit('chat message', msg);
     });
   
