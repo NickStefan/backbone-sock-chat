@@ -3,26 +3,39 @@
 <head>
   <title>{+title}{/title}</title>
   <meta charset="utf-8">
-  <link rel="stylesheet" type="text/css" href="css/styleChat.css">
+  <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
 </head>
 <body>
-  <nav>
-    <div class="container">
-      <ul>
-        <li>Chat</li>
-        <li>Direct</li>
-        <li>Settings</li>
-      </ul>
+<div class="navbar navbar-default navbar-fixed-top" role="navigation">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target=".navbar-collapse">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="#">Sock-Chat</a>
+        </div>
+        <div class="navbar-collapse collapse">
+          <ul class="nav navbar-nav navbar-right">
+            <li><a href="">Chat</a></li>
+            <li><a href="">Direct</a></li>
+            <li><a href="">Settings</a></li>
+          </ul>
+        </div><!--/.nav-collapse -->
+      </div>
     </div>
-  </nav>
-  {+content}{/content}
-  <div id="app"></div>
+  
+  <div class="container">
+    <div id="app"></div>
+  </div>
   
   <script src="js/lib/socket.io.js"></script>
   <script src="js/lib/jquery.min.js"></script>
+  <script src="js/lib/bootstrap.min.js"></script>
   <script src="js/sock-chat.js"></script>
   <script src="js/lib/underscore-min.js"></script>
   <script src="js/lib/backbone.js"></script>
-  
 </body>
 </html>

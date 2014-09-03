@@ -1,15 +1,6 @@
 {>layout/}
 
 {<content}
-<h1>Hello Sock-Chat</h1>
-<div class="chatbox">
-  <div class="innerchatbox">
-  <ul id="messages"></ul>
-  </div>
-  <form action="">
-    <input id="m" autocomplete="off" placeholder="Enter a message ..."></input>
-  </form>
-</div>
 {/content}
 
 
