@@ -1,0 +1,37 @@
+body { 
+  font: 13px Helvetica, Arial; 
+  margin: 0; 
+  padding: 0; 
+}
+
+.chatbox {
+  max-width: 500px;
+  height: 279px;
+  border: 1px solid black;
+}
+
+.innerchatbox {
+  height: 250px;
+  border-bottom: 1px solid black;
+}
+
+form input { 
+  display: inline-block;
+  border: 0; 
+  width: 99%; 
+  height: 25px;
+}
+
+#messages { 
+  list-style-type: none; 
+  margin: 0; 
+  padding: 0; 
+}
+  
+#messages li { 
+  padding: 5px 10px; 
+}
+
+#messages li:nth-child(odd) { 
+  background: #eee; 
+}

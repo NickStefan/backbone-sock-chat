@@ -1,8 +1,9 @@
 <!DOCTYPE html>
 <html>
 <head>
-  {+head-html}
-  {/head-html}
+  <title>{+title}{/title}</title>
+  <meta charset="utf-8">
+  <link rel="stylesheet" type="text/css" href="css/styleChat.css">
 </head>
 <body>
   {+content}

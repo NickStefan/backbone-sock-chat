@@ -72,9 +72,7 @@ var server = app.listen(app.get('port'), function() {
 });
 
 var io = require('socket.io').listen(server);
-for (var key in io){
-  console.log(key);
-}
+
 io.on('connection', function (socket) {
   console.log('another connection');
   
