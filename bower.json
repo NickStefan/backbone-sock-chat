@@ -1,0 +1,18 @@
+{
+  "name": "sock-chat",
+  "version": "0.0.1",
+  "homepage": "https://github.com/NickStefan/sock-chat",
+  "license": "MIT",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "backbone": "~1.1.2",
+    "bootstrap": "~3.2.0"
+  }
+}

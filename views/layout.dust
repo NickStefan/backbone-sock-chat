@@ -6,7 +6,23 @@
   <link rel="stylesheet" type="text/css" href="css/styleChat.css">
 </head>
 <body>
-  {+content}
-  {/content}
+  <nav>
+    <div class="container">
+      <ul>
+        <li>Chat</li>
+        <li>Direct</li>
+        <li>Settings</li>
+      </ul>
+    </div>
+  </nav>
+  {+content}{/content}
+  <div id="app"></div>
+  
+  <script src="js/lib/socket.io.js"></script>
+  <script src="js/lib/jquery.min.js"></script>
+  <script src="js/sock-chat.js"></script>
+  <script src="js/lib/underscore-min.js"></script>
+  <script src="js/lib/backbone.js"></script>
+  
 </body>
 </html>
