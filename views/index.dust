@@ -1,0 +1,4 @@
+{>layout/}
+{<content}
+<h1>Hello Sock-Chat</h1>
+{/content}
