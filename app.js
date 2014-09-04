@@ -42,6 +42,7 @@ app.use(function(req, res, next) {
 // will print stacktrace
 if (app.get('env') === 'development') {
     app.use(function(err, req, res, next) {
+      console.log(err.toString());
         res.status(err.status || 500);
         res.render('error', {
             message: err.message,
@@ -84,18 +85,18 @@ io.on('connection', function (socket) {
   socket.on('add user', function(username){
     socket.username = username;
     usernames[username] = username;
-    
+
     socket.emit('login', {
       usernames: usernames
     });
     
     socket.broadcast.emit('user joined', {
-      username: socket.username,
-      numUsers: numUsers
+      username: socket.username
     });
   });
   
   socket.on('chat message', function(msg){
+
     socket.broadcast.emit('chat message', {
       username: socket.username,
       message: msg
