@@ -78,6 +78,7 @@ var server = app.listen(app.get('port'), function() {
 var io = require('socket.io').listen(server);
 
 var usernames = {};
+var clients = [];
 
 io.on('connection', function (socket) {
   var success = false;
@@ -85,7 +86,8 @@ io.on('connection', function (socket) {
   
   socket.on('add user', function(username){
     socket.username = username;
-    usernames[username] = username;
+    clients.push(socket);
+    usernames[username] = clients.length - 1;
     success = true;
     console.log(username + " has successfully connected.");
     
@@ -123,6 +125,21 @@ io.on('connection', function (socket) {
       });
     } 
   });
+  
+  // TODO proof of concept sending direct messages
+  // setInterval(function() {
+//       if (clients.length > 0) {
+//         var user = "ck";
+//         var sender = socket.username;
+//         console.log(sender);
+//         console.log(socket.username);
+//         clients[usernames[user]].emit('chat message', {
+//           username: sender,
+//           message: "this is only for you " + user
+//         });
+//       }
+//   }, 10000);
+  
 });
 
 module.exports = app;
