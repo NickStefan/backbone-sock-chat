@@ -40,6 +40,11 @@ $(function(){
     addtoChat(data);
     addtoChatters(data);
   });
+  
+  socket.on('user left', function(data){
+    addtoChat(data);
+    addtoChatters(data);
+  });
 
 
 });
@@ -51,7 +56,10 @@ var addtoChat = function(data){
     var joined = " has joined the chat.";
     msg = $('<span>').text(data.username + joined).addClass('updated');
     $('.messages').append($('<li>').html(msg));
-    
+  } else if (data.left){
+    var left = " has left the chat.";
+    msg = $('<span>').text(data.username + left).addClass('updated');
+    $('.messages').append($('<li>').html(msg));
   } else {
     msg = data.username + ": " + data.message;
     $('.messages').append($('<li>').text(msg));

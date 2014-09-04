@@ -80,12 +80,15 @@ var io = require('socket.io').listen(server);
 var usernames = {};
 
 io.on('connection', function (socket) {
-  console.log('another user has connected...');
+  var success = false;
+  console.log('user attempting to connect...');
   
   socket.on('add user', function(username){
     socket.username = username;
     usernames[username] = username;
-
+    success = true;
+    console.log(username + " has successfully connected.");
+    
     socket.emit('login', {
       usernames: usernames
     });
@@ -95,6 +98,7 @@ io.on('connection', function (socket) {
       username: socket.username,
       joined: true
     });
+    
   });
   
   socket.on('chat message', function(msg){
@@ -106,9 +110,19 @@ io.on('connection', function (socket) {
   });
   
   socket.on('disconnect', function(){
-      console.log('user disconnected');
-  });
     
+    // if user had previously connected succesfully
+    if (success) {
+      delete usernames[socket.username];
+      console.log(socket.username + ' has disconnected.');
+      
+      socket.broadcast.emit('user left', {
+        left: true,
+        username: socket.username,
+        usernames: usernames
+      });
+    } 
+  });
 });
 
 module.exports = app;
