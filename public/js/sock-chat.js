@@ -5,6 +5,7 @@ $(function(){
   var username;
   
   $('.messages').css('height',( $(window).height() / 2) );
+  $('.chatters').css('height',( $(window).height() / 2) );
   
   $('button').on('click',function(){
     $('form').submit();
@@ -27,8 +28,8 @@ $(function(){
     addtoChat(data);
   });
   
-  socket.on('login', function(){
-    
+  socket.on('login', function(data){
+    addtoChatters(data);
   });
   
   socket.on('user joined', function(){
@@ -47,4 +48,14 @@ var addtoChat = function(data){
   }
   $('.messages').append($('<li>').text(msg));
   $('.messages').scrollTop( $('.messages')[0].scrollHeight );
+};
+
+var addtoChatters = function(data){
+  var count = 0;
+  for (var key in data.usernames){
+    $('.chatters').append($('<li>').text(key));
+    count++;
+  }
+  $('.count').html(count);
+  $('.chatters').scrollTop( $('.chatters')[0].scrollHeight );
 };
