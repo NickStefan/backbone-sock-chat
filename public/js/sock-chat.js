@@ -28,12 +28,17 @@ $(function(){
     addtoChat(data);
   });
   
+  // when server says "bob" has login
+  // update the chat room stats
   socket.on('login', function(data){
     addtoChatters(data);
   });
   
-  socket.on('user joined', function(){
-    
+  // when server says "bob" has joined
+  // append to chat
+  socket.on('user joined', function(data){
+    addtoChat(data);
+    addtoChatters(data);
   });
 
 
@@ -41,17 +46,23 @@ $(function(){
 
 var addtoChat = function(data){
   var msg;
-  if (data.username){
-    msg = data.username + ": " + data.message;
+
+  if (data.joined){
+    var joined = " has joined the chat.";
+    msg = $('<span>').text(data.username + joined).addClass('updated');
+    $('.messages').append($('<li>').html(msg));
+    
   } else {
-    msg = '<span class="update">' + data.message + "</span>";
+    msg = data.username + ": " + data.message;
+    $('.messages').append($('<li>').text(msg));
   }
-  $('.messages').append($('<li>').text(msg));
+  
   $('.messages').scrollTop( $('.messages')[0].scrollHeight );
 };
 
 var addtoChatters = function(data){
   var count = 0;
+  $('.chatters').html("");
   for (var key in data.usernames){
     $('.chatters').append($('<li>').text(key));
     count++;

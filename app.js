@@ -91,7 +91,9 @@ io.on('connection', function (socket) {
     });
     
     socket.broadcast.emit('user joined', {
-      username: socket.username
+      usernames: usernames,
+      username: socket.username,
+      joined: true
     });
   });
   
