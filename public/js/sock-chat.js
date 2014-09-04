@@ -17,9 +17,18 @@ $(function(){
     return false;
   });
   
+  socket.on('connect', function(data) {
+    username = prompt('Whats your username?');
+    socket.emit('join', username);
+  });
+  
   socket.on('chat message', function(msg){
-    $('.messages').append($('<li>').text(msg));
-    $('.messages').scrollTop( $('.messages')[0].scrollHeight );
+    addtoChat(username);
   });
 
 });
+
+var addtoChat = function(msg){
+  $('.messages').append($('<li>').text(msg));
+  $('.messages').scrollTop( $('.messages')[0].scrollHeight );
+};

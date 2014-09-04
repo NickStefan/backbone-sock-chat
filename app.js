@@ -71,19 +71,40 @@ var server = app.listen(app.get('port'), function() {
     debug('Express server listening on port ' + server.address().port);
 });
 
+// * end bin/www functions
+
+// socket io
 var io = require('socket.io').listen(server);
 
+var usernames = {};
+
 io.on('connection', function (socket) {
-  console.log('another connection');
+  console.log('another user has connected...');
+  
+  socket.on('add user', function(username){
+    socket.username = username;
+    usernames[username] = username;
+    
+    socket.emit('login', {
+      usernames: usernames
+    });
+    
+    socket.broadcast.emit('user joined', {
+      username: socket.username,
+      numUsers: numUsers
+    });
+  });
   
   socket.on('chat message', function(msg){
-    console.log(msg);
-    io.emit('chat message', msg);
+    socket.broadcast.emit('chat message', {
+      username: socket.username,
+      message: msg
     });
+  });
   
   socket.on('disconnect', function(){
       console.log('user disconnected');
-    });
+  });
     
 });
 
