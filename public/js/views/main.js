@@ -23,16 +23,12 @@ var ChatView = Backbone.View.extend({
     this.$('.chatters').css('height',( $(window).height() / 2) );
   },
   
-  sendBtn: function() {
-    this.$('.send-form').submit();
-  },
-  
-  msgSubmit: function() {
-      var message = this.$('#m').val();
-      socket.emit('chat message', message);
-      this.$('#m').val('');
-      this.addtoChat({username:username,message:message});
-      return false;
+  msgSubmit: function(e) {
+    var message = this.$('#m').val();
+    socket.emit('chat message', message);
+    this.$('#m').val('');
+    this.addtoChat({username:username,message:message});
+    return false;
   },
   
   addtoChat: function(data) {

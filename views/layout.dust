@@ -75,6 +75,7 @@
   <script src="js/lib/underscore-min.js"></script>
   <script src="js/lib/backbone.js"></script>
   <script src="js/views/main.js"></script>
+  <script src="js/controllers/main.js"></script>
   <script src="js/sock-chat.js"></script>
 </body>
 </html>
