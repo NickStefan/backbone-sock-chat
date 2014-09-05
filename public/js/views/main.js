@@ -2,7 +2,8 @@ var ChatView = Backbone.View.extend({
   el: '#app',
   
   events: {
-    'click .send-btn': 'sendBtn'
+    'click .send-btn': 'msgSubmit',
+    'submit .send-form': 'msgSubmit'
   },
   
   initialize: function() {
@@ -24,6 +25,14 @@ var ChatView = Backbone.View.extend({
   
   sendBtn: function() {
     this.$('.send-form').submit();
+  },
+  
+  msgSubmit: function(){
+      var message = $('#m').val();
+      socket.emit('chat message', message);
+      $('#m').val('');
+      addtoChat({username:username,message:message});
+      return false;
   }
   
 });

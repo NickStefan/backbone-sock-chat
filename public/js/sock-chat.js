@@ -1,22 +1,13 @@
+var socket = io();
+var username = prompt('Whats your username?');
+
 $(function(){
   
-  var socket = io();
   var chatView = new ChatView();
   
   var username;
   
-
-  
-  $('.send-form').submit(function(e){
-    var message = $('#m').val();
-    socket.emit('chat message', message);
-    $('#m').val('');
-    addtoChat({username:username,message:message});
-    return false;
-  });
-  
   socket.on('connect', function(data) {
-    username = prompt('Whats your username?');
     socket.emit('add user', username);
   });
   
