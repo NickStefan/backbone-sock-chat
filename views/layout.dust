@@ -50,12 +50,12 @@
       
       <div class="row">
         <div class="col-sm-8">
-          <form action="">
+          <form class="send-form" action="">
             <input class="form-control" id="m" autocomplete="off" placeholder="Enter a message ..."></input>
           </form>
         </div>
         <div class="col-sm-4">
-          <button class="btn btn-block btn-info">Message</button>
+          <button class="send-btn btn btn-block btn-info">Message</button>
         </div>
       </div>
 

@@ -1,5 +1,9 @@
-var MainView = Backbone.View.extend({
+var ChatView = Backbone.View.extend({
   el: '#app',
+  
+  events: {
+    'click .send-btn': 'sendBtn'
+  },
   
   initialize: function() {
     this.render();
@@ -16,9 +20,10 @@ var MainView = Backbone.View.extend({
   afterRender: function() {
     $('.messages').css('height',( $(window).height() / 2) );
     $('.chatters').css('height',( $(window).height() / 2) );
+  },
+  
+  sendBtn: function() {
+    this.$('.send-form').submit();
   }
-});
-
-$(function(){
-  var mainView = new MainView();
+  
 });

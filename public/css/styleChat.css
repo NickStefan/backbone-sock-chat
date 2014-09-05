@@ -6,7 +6,7 @@
   min-height: 10px;
 }
 
-form input { 
+.sendform input { 
   border: 0; 
   height: 25px;
 }

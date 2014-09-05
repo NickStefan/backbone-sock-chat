@@ -1,14 +1,13 @@
-var socket = io();
-
 $(function(){
+  
+  var socket = io();
+  var chatView = new ChatView();
   
   var username;
   
-  $('button').on('click',function(){
-    $('form').submit();
-  });
+
   
-  $('form').submit(function(e){
+  $('.send-form').submit(function(e){
     var message = $('#m').val();
     socket.emit('chat message', message);
     $('#m').val('');
