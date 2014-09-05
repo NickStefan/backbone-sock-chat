@@ -4,9 +4,6 @@ $(function(){
   
   var username;
   
-  $('.messages').css('height',( $(window).height() / 2) );
-  $('.chatters').css('height',( $(window).height() / 2) );
-  
   $('button').on('click',function(){
     $('form').submit();
   });

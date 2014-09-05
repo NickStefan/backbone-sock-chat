@@ -10,6 +10,12 @@ var MainView = Backbone.View.extend({
   render: function() {
     var attributes;
     this.$el.html(this.template(attributes));
+    this.afterRender();
+  },
+  
+  afterRender: function() {
+    $('.messages').css('height',( $(window).height() / 2) );
+    $('.chatters').css('height',( $(window).height() / 2) );
   }
 });
 
