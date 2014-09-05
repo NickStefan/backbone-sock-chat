@@ -5,63 +5,32 @@ $(function(){
   
   var chatView = new ChatView();
   
-  var username;
-  
   socket.on('connect', function(data) {
     socket.emit('add user', username);
   });
   
   socket.on('chat message', function(data){
-    addtoChat(data);
+    chatView.addtoChat(data);
   });
   
-  // when server says "bob" has login
+  // when server says you have logged in
   // update the chat room stats
   socket.on('login', function(data){
-    addtoChatters(data);
+    chatView.addtoChatters(data);
   });
   
-  // when server says "bob" has joined
+  // when server says other guy has joined
   // append to chat
   socket.on('user joined', function(data){
-    addtoChat(data);
-    addtoChatters(data);
+    //chatView.vent.trigger('addtoChat', data);
+    chatView.addtoChat(data);
+    chatView.addtoChatters(data);
   });
   
   socket.on('user left', function(data){
-    addtoChat(data);
-    addtoChatters(data);
+    chatView.addtoChat(data);
+    chatView.addtoChatters(data);
   });
 
 
 });
-
-var addtoChat = function(data){
-  var msg;
-
-  if (data.joined){
-    var joined = " has joined the chat.";
-    msg = $('<span>').text(data.username + joined).addClass('updated');
-    $('.messages').append($('<li>').html(msg));
-  } else if (data.left){
-    var left = " has left the chat.";
-    msg = $('<span>').text(data.username + left).addClass('updated');
-    $('.messages').append($('<li>').html(msg));
-  } else {
-    msg = data.username + ": " + data.message;
-    $('.messages').append($('<li>').text(msg));
-  }
-  
-  $('.messages').scrollTop( $('.messages')[0].scrollHeight );
-};
-
-var addtoChatters = function(data){
-  var count = 0;
-  $('.chatters').html("");
-  for (var key in data.usernames){
-    $('.chatters').append($('<li>').text(key));
-    count++;
-  }
-  $('.count').html(count);
-  $('.chatters').scrollTop( $('.chatters')[0].scrollHeight );
-};
