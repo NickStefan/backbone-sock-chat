@@ -1,36 +1,37 @@
-var socket = io();
+
 var username = prompt('Whats your username?');
 
-$(function(){
+var SockChat = function(view){
   
-  var chatView = new ChatView();
+  var socket = io();
+  
+  this.chat = function(message) {
+    socket.emit('chat message', message);
+  };
   
   socket.on('connect', function(data) {
     socket.emit('add user', username);
   });
   
   socket.on('chat message', function(data){
-    chatView.addtoChat(data);
+    view.addtoChat(data);
   });
   
   // when server says you have logged in
   // update the chat room stats
   socket.on('login', function(data){
-    chatView.addtoChatters(data);
+    view.addtoChatters(data);
   });
   
   // when server says other guy has joined
   // append to chat
   socket.on('user joined', function(data){
-    //chatView.vent.trigger('addtoChat', data);
-    chatView.addtoChat(data);
-    chatView.addtoChatters(data);
+    view.addtoChat(data);
+    view.addtoChatters(data);
   });
   
   socket.on('user left', function(data){
-    chatView.addtoChat(data);
-    chatView.addtoChatters(data);
+    view.addtoChat(data);
+    view.addtoChatters(data);
   });
-
-
-});
+};

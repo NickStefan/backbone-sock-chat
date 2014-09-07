@@ -1,14 +1,16 @@
 $(function(){
-  var chatController = new ChatController();
-  chatController.init();
+  var chatController = new ChatController(); 
 });
 
 var ChatController = function() {
+  
   this.chatEvents = _.extend({}, Backbone.Events);
   
-  this.init = function() {
-    // this.sockChat = new SocketChat({vent: this.chatEvents});
-    this.chatView = new ChatView();
-  };
+  this.chatView = new ChatView({vent: this.chatEvents});
+  this.sockChat = new SockChat(this.chatView);
   
+  this.chatEvents.on('pushMessage', function(message){
+    this.sockChat.chat(message);
+  }, this);
+
 };
