@@ -84,7 +84,7 @@ io.on('connection', function (socket) {
   var success = false;
   console.log('user attempting to connect...');
   
-  socket.on('add user', function(username){
+  socket.on('addUser', function(username){
     socket.username = username;
     clients.push(socket);
     usernames[username] = clients.length - 1;
@@ -95,7 +95,7 @@ io.on('connection', function (socket) {
       usernames: usernames
     });
     
-    socket.broadcast.emit('user joined', {
+    socket.broadcast.emit('userJoined', {
       usernames: usernames,
       username: socket.username,
       joined: true
@@ -103,9 +103,9 @@ io.on('connection', function (socket) {
     
   });
   
-  socket.on('chat message', function(msg){
+  socket.on('chatMessage', function(msg){
 
-    socket.broadcast.emit('chat message', {
+    socket.broadcast.emit('chatMessage', {
       username: socket.username,
       message: msg
     });
@@ -118,7 +118,7 @@ io.on('connection', function (socket) {
       delete usernames[socket.username];
       console.log(socket.username + ' has disconnected.');
       
-      socket.broadcast.emit('user left', {
+      socket.broadcast.emit('userLeft', {
         left: true,
         username: socket.username,
         usernames: usernames
