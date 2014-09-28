@@ -20,17 +20,39 @@ var ChatRoomModel = Backbone.Model.extend({
 
     this.vent.on('connect', function(username) {
       this.set('username', username);
-      this.get('userChats').add({ sender: username, message: '...connecting to server...' });
-    }, this)
+      this.get('userChats').add(
+        { sender: username, message: '...connecting to chat server...', PSA:true }
+      );
+    }, this);
 
     this.vent.on('login', function(data) {
-      this.get('userChats').add({ sender: this.get('username'), message: '...connected to server...' });
+      this.get('userChats').add(
+        { sender: data.username, message: 'has joined the chat', PSA:true }
+      );
       this.createChattersList(data);
     }, this);
 
-    this.vent.on('addtoChat', function(data) {
-      this.addChat({sender: data.message, message: data.message});
+    this.vent.on('userJoined', function(data) {
+      this.get('onlineUsers').add(new UserModel({ name: data.username }));
+      this.get('userChats').add(
+        { sender: data.username, message: 'has joined the chat', PSA:true }
+      );
     }, this);
+
+    this.vent.on('addtoChat', function(data) {
+      if (data.userleft) {
+        this.removeUser(data);
+        this.get('userChats').add(
+          { sender: data.username, message: 'has left the chat', PSA:true }
+        );
+      } else {
+        this.addChat(data);
+      }
+    }, this);
+
+    this.vent.on('removeUser', function(data) {
+      this.removeUser(data);
+    },this);
 
   },
   
@@ -42,14 +64,13 @@ var ChatRoomModel = Backbone.Model.extend({
         }
       }
     }
-    //console.log("onlineUsers", this.get('onlineUsers'));
   },
   
-  removeUser: function(username) {
+  removeUser: function(data) {
     var onlineUsers = this.get('onlineUsers');
     
     var u = onlineUsers.find(function(item) {
-      return item.get('name') === username;
+      return item.get('name') === data.username;
     });
     
     if (u) {
@@ -57,9 +78,10 @@ var ChatRoomModel = Backbone.Model.extend({
     }
   },
   
-  addChat: function(chat) {
+  addChat: function(data) {
+    console.log(data);
     this.get('userChats').add(new ChatModel(
-      { sender: chat.sender, message: chat.message }
+      { sender: data.sender, message: data.message }
     ));
   }
   

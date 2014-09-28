@@ -9,16 +9,25 @@ var ChatView = Backbone.View.extend({
   initialize: function(options) {
     this.vent = options.vent;
     this.chattersView = new ChattersView({collection: this.model.get('onlineUsers')});
+    this.messagesView = new MessagesView({collection: this.model.get('userChats')});
+
+    this.listenTo(this.model.get('userChats'),'add',this.scroll);
+    this.listenTo(this.model.get('onlineUsers'),'add',this.scroll);
+
     this.render();
   },
   
   template: _.template( $('#main').html()),
+
+  scroll: function() {
+    this.$('.messages').scrollTop( $('.messages')[0].scrollHeight );
+  },
   
   render: function() {
-    console.log("users", this.model.get('onlineUsers'))
     var attributes;
     this.$el.html(this.template(attributes));
     $('#chatters').html(this.chattersView.el);
+    $('#messages').html(this.messagesView.el);
     this.afterRender();
   },
   
@@ -28,35 +37,21 @@ var ChatView = Backbone.View.extend({
   },
   
   msgSubmit: function(e) {
+    e.preventDefault();
     var message = this.$('#m').val();
-    this.vent.trigger('pushMessage', message);
+    this.vent.trigger('pushMessage', {sender: this.model.get('username'), message: message });
     this.$('#m').val('');
-    this.addtoChat({username:username,message:message});
-    return false;
-  },
-  
-  addtoChat: function(data) {
-    var msg;
-    
-    if (data.joined){
-      var joined = " has joined the chat.";
-      msg = $('<span>').text(data.username + joined).addClass('updated');
-      this.$('.messages').append($('<li>').html(msg));
-    } else if (data.left){
-      var left = " has left the chat.";
-      msg = $('<span>').text(data.username + left).addClass('updated');
-      this.$('.messages').append($('<li>').html(msg));
-    } else {
-      msg = data.username + ": " + data.message;
-      this.$('.messages').append($('<li>').text(msg));
-    }
-
-    this.$('.messages').scrollTop( $('.messages')[0].scrollHeight );
+    this.vent.trigger('addtoChat', { sender: this.model.get('username'), message: message });
   }
   
 });
 
 var ChattersView = Backbone.View.extend({
+
+  tagName: 'ul',
+
+  className: 'chatters',
+
   initialize: function() {
     this.listenTo( this.collection, 'add remove', this.render);
     this.render();
@@ -76,6 +71,9 @@ var ChattersView = Backbone.View.extend({
 });
 
 var ChatterEntryView = Backbone.View.extend({
+
+  tagName: 'li',
+
   initialize: function(){
     this.listenTo(this.model,'change',this.render);
     this.render();
@@ -93,4 +91,51 @@ var ChatterEntryView = Backbone.View.extend({
     return this.$el.html(this.template(this.model.attributes));
   }
 
+});
+
+var MessagesView = Backbone.View.extend({
+
+  tagName: 'ul',
+
+  className: 'messages',
+
+  initialize: function() {
+    this.listenTo(this.collection, 'add remove', this.render);
+    this.render()
+  },
+  
+  render: function() {
+    this.$el.html(
+      this.collection.map(function(msg) {
+        return new MessageEntryView({model: msg }).render();
+      })
+    );
+  }
+
+});
+
+var MessageEntryView = Backbone.View.extend({
+  
+  tagName: 'li',
+  
+  initialize: function(){
+    this.listenTo(this.model,'change',this.render);
+    this.render();
+  },
+
+  template: _.template('<span class="sender"><%= sender %></span><span class="msg"><%= message %></span>'),
+
+  events: {
+    'click': function() {
+      console.log("clicked");
+    }
+  },
+
+  render: function(){
+    this.$el.html(this.template(this.model.attributes));
+    if (this.model.get('PSA')) {
+      this.$el.addClass('PSA');
+    }
+    return this.$el;
+  }
 });

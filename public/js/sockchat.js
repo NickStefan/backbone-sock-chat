@@ -14,8 +14,8 @@ var SockChat = function(options){
 
   };
   
-  this.chat = function(message) {
-    this.socket.emit('chatMessage', message);
+  this.chat = function(data) {
+    this.socket.emit('chatMessage', data);
   };
   
   
@@ -37,8 +37,7 @@ var SockChat = function(options){
     // when server says other client has joined
     // append to client's chat
     socket.on('userJoined', function(data){
-      self.vent.trigger("addtoChatters",data);
-      self.vent.trigger("addtoChat",data);
+      self.vent.trigger("userJoined",data);
     });
     
     // when server says other client has chatted
@@ -49,7 +48,7 @@ var SockChat = function(options){
   
     // when other client logs out
     socket.on('userLeft', function(data){
-      self.vent.trigger("addtoChatters",data);
+      self.vent.trigger("removeUser",data);
       self.vent.trigger("addtoChat",data);
     });
     

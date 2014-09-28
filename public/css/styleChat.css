@@ -2,6 +2,18 @@
   margin-top: 100px;
 }
 
+.PSA {
+  font-style: italic;
+}
+
+.sender {
+  margin: 0px 10px;
+}
+
+.msg {
+
+}
+
 .spacer {
   min-height: 10px;
 }

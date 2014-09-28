@@ -102,19 +102,13 @@ io.on('connection', function (socket) {
     });
     
     socket.broadcast.emit('userJoined', {
-      usernames: usernames,
-      username: socket.username,
-      joined: true
+      username: socket.username
     });
     
   });
   
-  socket.on('chatMessage', function(msg){
-
-    socket.broadcast.emit('chatMessage', {
-      username: socket.username,
-      message: msg
-    });
+  socket.on('chatMessage', function(data){
+    socket.broadcast.emit('chatMessage', data);
   });
   
   socket.on('disconnect', function(){
@@ -127,9 +121,8 @@ io.on('connection', function (socket) {
       console.log(socket.username + ' has disconnected.');
       
       socket.broadcast.emit('userLeft', {
-        left: true,
-        username: socket.username,
-        usernames: usernames
+        userleft: true,
+        username: socket.username
       });
     } 
   });
