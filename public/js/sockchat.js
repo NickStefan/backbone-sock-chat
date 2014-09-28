@@ -25,12 +25,13 @@ var SockChat = function(options){
     // to log in to the server's chat
     socket.on('connect', function(data) {
       socket.emit('addUser', username);
+      self.vent.trigger('connect', username);
     });
     
     // when server says this client has logged in
     // update the chat room stats
     socket.on('login', function(data){
-      self.vent.trigger("addtoChatters",data);
+      self.vent.trigger("login",data);
     });
     
     // when server says other client has joined

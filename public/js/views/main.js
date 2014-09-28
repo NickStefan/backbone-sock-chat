@@ -8,14 +8,17 @@ var ChatView = Backbone.View.extend({
   
   initialize: function(options) {
     this.vent = options.vent;
+    this.chattersView = new ChattersView({collection: this.model.get('onlineUsers')});
     this.render();
   },
   
   template: _.template( $('#main').html()),
   
   render: function() {
+    console.log("users", this.model.get('onlineUsers'))
     var attributes;
     this.$el.html(this.template(attributes));
+    $('#chatters').html(this.chattersView.el);
     this.afterRender();
   },
   
@@ -49,17 +52,45 @@ var ChatView = Backbone.View.extend({
     }
 
     this.$('.messages').scrollTop( $('.messages')[0].scrollHeight );
-  },
-  
-  addtoChatters: function(data) {
-    var count = 0;
-    this.$('.chatters').html("");
-    for (var key in data.usernames){
-      this.$('.chatters').append($('<li>').text(key));
-      count++;
-    }
-    this.$('.count').html(count);
-    this.$('.chatters').scrollTop( $('.chatters')[0].scrollHeight );
   }
   
+});
+
+var ChattersView = Backbone.View.extend({
+  initialize: function() {
+    this.listenTo( this.collection, 'add remove', this.render);
+    this.render();
+  },
+
+  render: function() {
+    this.$el.children().detach();
+
+    this.$el.html('<h5>' + this.collection.length + ' Chatters</h5>')
+      .append(
+        this.collection.map(function(chatter){
+          return new ChatterEntryView({model: chatter}).render();
+        })
+      );
+  }
+
+});
+
+var ChatterEntryView = Backbone.View.extend({
+  initialize: function(){
+    this.listenTo(this.model,'change',this.render);
+    this.render();
+  },
+
+  template: _.template('<span><%= name %></span>'),
+
+  events: {
+    'click': function() {
+      console.log("clicked");
+    }
+  },
+
+  render: function(){
+    return this.$el.html(this.template(this.model.attributes));
+  }
+
 });

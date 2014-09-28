@@ -78,7 +78,8 @@ var server = app.listen(app.get('port'), function() {
 var io = require('socket.io').listen(server);
 
 var usernames = {};
-var clients = [];
+var clients = {};
+var clientNumber = 0;
 
 io.on('connection', function (socket) {
   var success = false;
@@ -86,13 +87,18 @@ io.on('connection', function (socket) {
   
   socket.on('addUser', function(username){
     socket.username = username;
-    clients.push(socket);
-    usernames[username] = clients.length - 1;
+    socket.usernameID = username + clientNumber.toString()
+    clientNumber += 1;
+    clients[ socket.usernameID ] = socket;
+    usernames[ socket.usernameID ] = username;
     success = true;
+
     console.log(username + " has successfully connected.");
-    
+    console.log("online users", usernames);
+
     socket.emit('login', {
-      usernames: usernames
+      usernames: usernames,
+      username: username
     });
     
     socket.broadcast.emit('userJoined', {
@@ -115,7 +121,9 @@ io.on('connection', function (socket) {
     
     // if user had previously connected succesfully
     if (success) {
-      delete usernames[socket.username];
+      delete usernames[ socket.usernameID ];
+      delete clients[ socket.usernameID ];
+      clientNumber -= 1;
       console.log(socket.username + ' has disconnected.');
       
       socket.broadcast.emit('userLeft', {
