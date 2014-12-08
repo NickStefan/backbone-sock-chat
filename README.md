@@ -19,6 +19,6 @@ My goals with this project:
 - Migrate the chatroom over to backbone incrementally by commit version
 - [x] Backbone View socket.io chatroom
 - [x] Backbone Control View Events(socket.io) chatroom
-- [ ] Backbone Model View Control Events(socket.io) chatroom
+- [x] Backbone Model View Control Events(socket.io) chatroom
 - [ ] login at the node/express level, spawn and enter a chat room
 - [ ] spawn, enter and exit multiple chat rooms with a cache to track missed messages
